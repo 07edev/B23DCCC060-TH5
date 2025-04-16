@@ -15,6 +15,7 @@ import {
   Row,
   Col,
   message,
+  Statistic,
 } from 'antd';
 import {
   PlusOutlined,
@@ -24,8 +25,13 @@ import {
   ArrowDownOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
+  DollarOutlined,
+  EnvironmentOutlined,
+  FieldTimeOutlined,
 } from '@ant-design/icons';
 import moment from 'moment';
+import 'moment/locale/vi'; // Import Vietnamese locale for moment
+import locale from 'antd/es/date-picker/locale/vi_VN'; // Import Vietnamese locale for DatePicker
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Destination, Trip, TripItem } from '@/models/travel';
 import {
@@ -42,6 +48,9 @@ const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
+// Set the locale to Vietnamese
+moment.locale('vi');
 
 interface TripItineraryProps {
   trip: Trip;
@@ -423,6 +432,23 @@ const TripItinerary: React.FC<TripItineraryProps> = ({
     );
   };
 
+  // Calculate trip statistics
+  const calculateTripStats = () => {
+    // Count unique destinations
+    const uniqueDestinations = new Set(trip.items.map(item => item.destinationId)).size;
+    
+    // Calculate total cost
+    const totalCost = trip.items.reduce((sum, item) => {
+      const destination = destinations.find(d => d.id === item.destinationId);
+      return sum + (destination?.price || 0);
+    }, 0);
+    
+    // Calculate trip duration in days
+    const duration = trip.startDate && trip.endDate ? localDates.length : 0;
+    
+    return { uniqueDestinations, totalCost, duration };
+  };
+
   return (
     <div className={styles.tripContainer}>
       <Spin spinning={loading}>
@@ -450,6 +476,8 @@ const TripItinerary: React.FC<TripItineraryProps> = ({
                     format="DD/MM/YYYY"
                     placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
                     value={selectedDates}
+                    locale={locale}
+                    size="large"
                   />
                   <Button 
                     type="primary" 
@@ -473,6 +501,42 @@ const TripItinerary: React.FC<TripItineraryProps> = ({
               )}
             </div>
           </Space>
+        </Card>
+
+        <Card size="small" style={{ marginBottom: 16 }}>
+          <Row gutter={16}>
+            {(() => {
+              const stats = calculateTripStats();
+              return (
+                <>
+                  <Col xs={8}>
+                    <Statistic 
+                      title="Số điểm đến" 
+                      value={stats.uniqueDestinations} 
+                      prefix={<EnvironmentOutlined />} 
+                    />
+                  </Col>
+                  <Col xs={8}>
+                    <Statistic 
+                      title="Tổng chi phí" 
+                      value={stats.totalCost} 
+                      prefix={<DollarOutlined />} 
+                      formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 
+                      suffix="₫"
+                    />
+                  </Col>
+                  <Col xs={8}>
+                    <Statistic 
+                      title="Số ngày" 
+                      value={stats.duration} 
+                      prefix={<FieldTimeOutlined />} 
+                      suffix="ngày"
+                    />
+                  </Col>
+                </>
+              );
+            })()}
+          </Row>
         </Card>
 
         {localDates.length > 0 ? (

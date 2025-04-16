@@ -63,11 +63,30 @@ const TripPage: React.FC = () => {
   const handleBudgetChange = (budget: any) => {
     if (currentTrip) {
       console.log('Budget updated:', budget);
+      
+      // Cập nhật budget trong currentTrip
+      const updatedTrip = {
+        ...currentTrip,
+        budget: budget
+      };
+      
+      // Cập nhật trip trong state
       dispatch({
-        type: 'travel/updateCurrentTrip',
-        payload: {
-          budget,
-        },
+        type: 'travel/setCurrentTrip',
+        payload: updatedTrip,
+      });
+      
+      // Tự động lưu chuyến đi khi có sự thay đổi ngân sách
+      dispatch({
+        type: 'travel/saveTrip',
+        payload: updatedTrip,
+      });
+      
+      // Hiển thị thông báo nhỏ khi lưu thành công
+      message.success({
+        content: 'Đã cập nhật ngân sách',
+        duration: 1,
+        key: 'budget-update'
       });
     }
   };

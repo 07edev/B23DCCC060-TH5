@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'umi';
-import { Typography, Card } from 'antd';
+import { Typography, Card, message, Spin } from 'antd';
 import { Destination } from '@/models/travel';
 import AdminPanel from '@/components/TravelPlanner/AdminPanel';
 import styles from './index.less';
@@ -9,33 +9,66 @@ const { Title } = Typography;
 
 const AdminPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { destinations } = useSelector((state: any) => state.travel);
+  const { destinations, trips, loading } = useSelector((state: any) => state.travel);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    dispatch({
+      type: 'travel/fetchDestinations',
+    });
+    
+    dispatch({
+      type: 'travel/fetchTrips',
+    });
+  }, [dispatch]);
 
   const handleAddDestination = (destination: Destination) => {
+    setIsSubmitting(true);
+    const updatedDestinations = [...destinations, destination];
+    
     dispatch({
-      type: 'travel/setDestinations',
-      payload: [...destinations, destination],
+      type: 'travel/saveDestinations',
+      payload: updatedDestinations,
     });
+    
+    dispatch({
+      type: 'travel/fetchTrips',
+    });
+    
+    message.success('Đã thêm điểm đến mới thành công');
+    setIsSubmitting(false);
   };
 
   const handleUpdateDestination = (destination: Destination) => {
+    setIsSubmitting(true);
     const updatedDestinations = destinations.map((item: Destination) =>
       item.id === destination.id ? destination : item,
     );
     
     dispatch({
-      type: 'travel/setDestinations',
+      type: 'travel/saveDestinations',
       payload: updatedDestinations,
     });
+    
+    dispatch({
+      type: 'travel/fetchTrips',
+    });
+    
+    message.success('Đã cập nhật điểm đến thành công');
+    setIsSubmitting(false);
   };
 
   const handleDeleteDestination = (id: string) => {
+    setIsSubmitting(true);
     const filteredDestinations = destinations.filter((item: Destination) => item.id !== id);
     
     dispatch({
-      type: 'travel/setDestinations',
+      type: 'travel/saveDestinations',
       payload: filteredDestinations,
     });
+    
+    message.success('Đã xóa điểm đến thành công');
+    setIsSubmitting(false);
   };
 
   return (
@@ -45,12 +78,19 @@ const AdminPage: React.FC = () => {
       </Title>
       
       <Card>
-        <AdminPanel
-          destinations={destinations}
-          onAddDestination={handleAddDestination}
-          onUpdateDestination={handleUpdateDestination}
-          onDeleteDestination={handleDeleteDestination}
-        />
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <Spin size="large" />
+          </div>
+        ) : (
+          <AdminPanel
+            destinations={destinations}
+            trips={trips || []}
+            onAddDestination={handleAddDestination}
+            onUpdateDestination={handleUpdateDestination}
+            onDeleteDestination={handleDeleteDestination}
+          />
+        )}
       </Card>
     </div>
   );

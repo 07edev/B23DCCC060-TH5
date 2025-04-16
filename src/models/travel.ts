@@ -55,6 +55,7 @@ export interface TravelModelType {
     fetchTrips: Effect;
     saveTrip: Effect;
     deleteTrip: Effect;
+    saveDestinations: Effect;
   };
   reducers: {
     setDestinations: ImmerReducer<TravelModelState>;
@@ -137,8 +138,44 @@ const travelModel: TravelModelType = {
   effects: {
     *fetchDestinations(_, { put }) {
       yield put({ type: 'setLoading', payload: true });
-      // In a real app, we would fetch from API
-      yield put({ type: 'setDestinations', payload: mockDestinations });
+      
+      try {
+        // Đọc danh sách destinations từ localStorage nếu có
+        const savedDestinations = localStorage.getItem('travel_destinations');
+        
+        if (savedDestinations) {
+          const destinations = JSON.parse(savedDestinations);
+          console.log('Loaded destinations from localStorage:', destinations);
+          yield put({ type: 'setDestinations', payload: destinations });
+        } else {
+          // Nếu không có dữ liệu trong localStorage, sử dụng dữ liệu mặc định
+          console.log('No saved destinations found, using mock data');
+          yield put({ type: 'setDestinations', payload: mockDestinations });
+          
+          // Lưu dữ liệu mặc định vào localStorage
+          localStorage.setItem('travel_destinations', JSON.stringify(mockDestinations));
+        }
+      } catch (error) {
+        console.error('Error loading destinations:', error);
+        // Nếu có lỗi, sử dụng dữ liệu mặc định
+        yield put({ type: 'setDestinations', payload: mockDestinations });
+      }
+      
+      yield put({ type: 'setLoading', payload: false });
+    },
+    
+    *saveDestinations({ payload }, { put }) {
+      yield put({ type: 'setLoading', payload: true });
+      
+      try {
+        // Lưu danh sách destinations vào localStorage
+        localStorage.setItem('travel_destinations', JSON.stringify(payload));
+        console.log('Saved destinations to localStorage:', payload);
+      } catch (error) {
+        console.error('Error saving destinations:', error);
+      }
+      
+      yield put({ type: 'setDestinations', payload });
       yield put({ type: 'setLoading', payload: false });
     },
     
