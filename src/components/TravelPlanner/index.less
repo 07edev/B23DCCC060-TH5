@@ -1,0 +1,203 @@
+@import '~antd/es/style/themes/default.less';
+
+// Destination card styles
+.destinationCard {
+  width: 100%;
+  margin-bottom: 16px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.cardImage {
+  height: 200px;
+  object-fit: cover;
+}
+
+.cardAction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rating {
+  font-size: 14px;
+}
+
+.description {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+// Filter styles
+.filterContainer {
+  margin-bottom: 24px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 
+              0 3px 6px 0 rgba(0, 0, 0, 0.12), 
+              0 5px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.filterTitle {
+  margin-bottom: 16px;
+}
+
+// Trip itinerary styles
+.tripContainer {
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 
+              0 3px 6px 0 rgba(0, 0, 0, 0.12), 
+              0 5px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.dayHeader {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.itineraryItem {
+  background-color: white;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-color: #d9d9d9;
+  }
+}
+
+.travelTime {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.datePickerSection {
+  margin-bottom: 24px;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.destinationName {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.destinationPrice {
+  color: @primary-color;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.destinationDescription {
+  margin-top: 8px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+// Budget styles
+.budgetContainer {
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 
+              0 3px 6px 0 rgba(0, 0, 0, 0.12), 
+              0 5px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.budgetAlert {
+  margin-top: 16px;
+}
+
+.totalBudget {
+  margin-top: 16px;
+  text-align: right;
+  font-weight: bold;
+}
+
+// Responsive styles
+@media (max-width: @screen-xs) {
+  .cardImage {
+    height: 150px;
+  }
+}
+
+@media (max-width: @screen-sm) {
+  .filterContainer,
+  .tripContainer,
+  .budgetContainer {
+    padding: 16px;
+  }
+  
+  .itineraryItem {
+    padding: 12px;
+  }
+  
+  .actionButtons {
+    margin-top: 12px;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+// Admin styles
+.adminContainer {
+  background-color: #fff;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.previewImage {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-top: 16px;
+  border-radius: 2px;
+}
+
+.statsCard {
+  margin-bottom: 24px;
+}
+
+.chartContainer {
+  margin-top: 24px;
+} 

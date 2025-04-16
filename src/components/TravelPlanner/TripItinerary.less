@@ -1,0 +1,48 @@
+.destinationDetailCard {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+
+  .ant-card-body {
+    padding: 16px;
+  }
+}
+
+.imagePreview {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.destinationDetail {
+  padding: 8px 0;
+}
+
+.destinationName {
+  margin-bottom: 16px !important;
+  color: #1890ff;
+}
+
+.destinationPrice {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.destinationDescription {
+  margin-top: 8px;
+  max-height: 100px;
+  overflow-y: auto;
+  padding-right: 8px;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+} 

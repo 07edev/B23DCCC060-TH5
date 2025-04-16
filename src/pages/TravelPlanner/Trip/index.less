@@ -1,0 +1,60 @@
+@import '~antd/es/style/themes/default.less';
+
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+// Styles cho màn hình chọn ngày
+.dateSelectionCard {
+  margin-bottom: 24px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+.dateSelectionContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.calendarIcon {
+  font-size: 48px;
+  color: @primary-color;
+  margin-bottom: 16px;
+}
+
+.datePicker {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 24px;
+}
+
+@media (max-width: @screen-sm) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .container {
+    padding: 16px;
+  }
+  
+  .dateSelectionContent {
+    padding: 32px 16px;
+  }
+} 
